@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Empire GT1 - Community Gaming Racing Master</title>
+    <link rel="icon" type="image/jpeg" href="assets/icon2.png" />
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      /* Floating background icons */
+      .floating-icon {
+        position: absolute;
+        opacity: 0.08;
+        animation: float 10s infinite linear;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-25px) rotate(15deg);
+        }
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+      }
+
+      /* Mascot animation (floating + glow) */
+      @keyframes mascotFloat {
+        0% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-14px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes glowPulse {
+        0% {
+          filter: drop-shadow(0 0 12px #ff1e1e);
+        }
+        50% {
+          filter: drop-shadow(0 0 22px #1e90ff);
+        }
+        100% {
+          filter: drop-shadow(0 0 12px #ba14dfa8);
+        }
+      }
+
+      .logo-shell {
+        position: relative;
+        width: fit-content;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .logo-lane {
+        position: absolute;
+        border-style: solid;
+        border-radius: 999px;
+        pointer-events: none;
+        animation-name: laneSpin, laneColor;
+        animation-timing-function: linear, ease-in-out;
+        animation-iteration-count: infinite, infinite;
+      }
+
+      .logo-lane--1 {
+        width: calc(100% + 12px);
+        height: calc(100% + 12px);
+        border-width: 2px;
+        border-color: #ff1e1e transparent transparent transparent;
+        animation-duration: 4.2s, 3.5s;
+        animation-name: laneSpin, laneColorTop;
+      }
+
+      .logo-lane--2 {
+        width: calc(100% + 26px);
+        height: calc(100% + 26px);
+        border-width: 2px;
+        border-color: transparent #1e90ff transparent transparent;
+        animation-duration: 5.8s, 3.5s;
+        animation-name: laneSpin, laneColorRight;
+        animation-direction: reverse, normal;
+      }
+
+      .logo-lane--3 {
+        width: calc(100% + 40px);
+        height: calc(100% + 40px);
+        border-width: 1.6px;
+        border-color: transparent transparent #03e9f4 transparent;
+        animation-duration: 7.1s, 3.5s;
+        animation-name: laneSpin, laneColorBottom;
+      }
+
+      @keyframes laneSpin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes laneColorTop {
+        0% {
+          border-top-color: #ff1e1e;
+          border-right-color: transparent;
+          border-bottom-color: transparent;
+          border-left-color: transparent;
+          filter: drop-shadow(0 0 6px #ff1e1e);
+        }
+        50% {
+          border-top-color: #1e90ff;
+          border-right-color: transparent;
+          border-bottom-color: transparent;
+          border-left-color: transparent;
+          filter: drop-shadow(0 0 8px #1e90ff);
+        }
+        100% {
+          border-top-color: #ff1e1e;
+          border-right-color: transparent;
+          border-bottom-color: transparent;
+          border-left-color: transparent;
+          filter: drop-shadow(0 0 6px #ff1e1e);
+        }
+      }
+
+      @keyframes laneColorRight {
+        0% {
+          border-top-color: transparent;
+          border-right-color: #ff1e1e;
+          border-bottom-color: transparent;
+          border-left-color: transparent;
+          filter: drop-shadow(0 0 6px #ff1e1e);
+        }
+        50% {
+          border-top-color: transparent;
+          border-right-color: #1e90ff;
+          border-bottom-color: transparent;
+          border-left-color: transparent;
+          filter: drop-shadow(0 0 8px #1e90ff);
+        }
+        100% {
+          border-top-color: transparent;
+          border-right-color: #ff1e1e;
+          border-bottom-color: transparent;
+          border-left-color: transparent;
+          filter: drop-shadow(0 0 6px #ff1e1e);
+        }
+      }
+
+      @keyframes laneColorBottom {
+        0% {
+          border-top-color: transparent;
+          border-right-color: transparent;
+          border-bottom-color: #ff1e1e;
+          border-left-color: transparent;
+          filter: drop-shadow(0 0 6px #ff1e1e);
+        }
+        50% {
+          border-top-color: transparent;
+          border-right-color: transparent;
+          border-bottom-color: #1e90ff;
+          border-left-color: transparent;
+          filter: drop-shadow(0 0 8px #1e90ff);
+        }
+        100% {
+          border-top-color: transparent;
+          border-right-color: transparent;
+          border-bottom-color: #ff1e1e;
+          border-left-color: transparent;
+          filter: drop-shadow(0 0 6px #ff1e1e);
+        }
+      }
+
+      /* Fade-in general */
+      .fade-in {
+        animation: fadeIn 1.2s ease forwards;
+        opacity: 0;
+      }
+      @keyframes fadeIn {
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Popup fade */
+      .fade-popup {
+        animation: popupFade 0.35s ease forwards;
+      }
+      @keyframes popupFade {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      /* Button states: normal loop, hover mask, click wing */
+      .animated-button {
+        position: relative;
+        overflow: hidden;
+        --border-color: #03e9f4;
+        background: #000 !important;
+        transition:
+          transform 0.22s ease,
+          filter 0.22s ease;
+      }
+
+      .animated-button .button-outline {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 30;
+      }
+
+      .animated-button .button-line {
+        fill: none;
+        stroke-linecap: round;
+      }
+
+      .animated-button .button-line--outer {
+        stroke: var(--border-color);
+        stroke-opacity: 1;
+        stroke-width: 3;
+        stroke-dasharray: 50 50;
+        stroke-dashoffset: 0;
+        animation: outlineOuter 6s linear infinite;
+      }
+
+      .animated-button .button-line--inner {
+        stroke: var(--border-color);
+        stroke-opacity: 0.55;
+        stroke-width: 1.8;
+        stroke-dasharray: 50 50;
+        stroke-dashoffset: 0;
+        animation: outlineInner 5s linear infinite;
+      }
+
+      @keyframes outlineOuter {
+        0% {
+          stroke-dashoffset: 0;
+          stroke-dasharray: 50 50;
+        }
+        50% {
+          stroke-dasharray: 34 66;
+        }
+        100% {
+          stroke-dashoffset: 100;
+          stroke-dasharray: 50 50;
+        }
+      }
+
+      @keyframes outlineInner {
+        0% {
+          stroke-dashoffset: 0;
+          stroke-dasharray: 50 50;
+        }
+        50% {
+          stroke-dasharray: 34 66;
+        }
+        100% {
+          stroke-dashoffset: -100;
+          stroke-dasharray: 50 50;
+        }
+      }
+
+      .animated-button span.border-line {
+        display: none;
+      }
+
+      .animated-button:hover,
+      .animated-button:focus-visible {
+        background: #000 !important;
+        transform: translateY(-2px) scale(1.02);
+        filter: drop-shadow(
+          0 0 8px color-mix(in srgb, var(--border-color), transparent 60%)
+        );
+      }
+
+      .animated-button:hover .button-line,
+      .animated-button:focus-visible .button-line {
+        animation-play-state: paused;
+      }
+
+      .animated-button.click-animate {
+        transform: scale(0.985);
+        filter: drop-shadow(
+          0 0 12px color-mix(in srgb, var(--border-color), transparent 40%)
+        );
+      }
+
+      .mask-button {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .mask-button > *:not(.mask-bg):not(.button-outline) {
+        position: relative;
+        z-index: 10;
+      }
+
+      .mask-button .mask-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        -webkit-mask: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/urban-sprite.png");
+        mask: url("https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/urban-sprite.png");
+        -webkit-mask-size: 3000% 100%;
+        mask-size: 3000% 100%;
+        -webkit-mask-position: 0 0;
+        mask-position: 0 0;
+        opacity: 0;
+        -webkit-animation: ani2 0.7s steps(29) forwards;
+        animation: ani2 0.7s steps(29) forwards;
+        z-index: 1;
+        transition: opacity 0.2s ease;
+      }
+
+      .animated-button.mask-button .mask-bg {
+        background: var(--border-color);
+      }
+
+      .animated-button.mask-button:hover .mask-bg,
+      .animated-button.mask-button:focus-visible .mask-bg {
+        opacity: 0.95;
+        -webkit-animation: ani 0.7s steps(29) forwards;
+        animation: ani 0.7s steps(29) forwards;
+      }
+
+      @-webkit-keyframes ani {
+        from {
+          -webkit-mask-position: 0 0;
+          mask-position: 0 0;
+        }
+        to {
+          -webkit-mask-position: 100% 0;
+          mask-position: 100% 0;
+        }
+      }
+
+      @keyframes ani {
+        from {
+          -webkit-mask-position: 0 0;
+          mask-position: 0 0;
+        }
+        to {
+          -webkit-mask-position: 100% 0;
+          mask-position: 100% 0;
+        }
+      }
+
+      @-webkit-keyframes ani2 {
+        from {
+          -webkit-mask-position: 100% 0;
+          mask-position: 100% 0;
+        }
+        to {
+          -webkit-mask-position: 0 0;
+          mask-position: 0 0;
+        }
+      }
+
+      @keyframes ani2 {
+        from {
+          -webkit-mask-position: 100% 0;
+          mask-position: 100% 0;
+        }
+        to {
+          -webkit-mask-position: 0 0;
+          mask-position: 0 0;
+        }
+      }
+
+      .click-wing {
+        position: fixed;
+        pointer-events: none;
+        width: 70px;
+        height: 42px;
+        transform: translate(-50%, -50%);
+        z-index: 1100;
+      }
+
+      .click-wing::before,
+      .click-wing::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 30px;
+        height: 18px;
+        background: color-mix(in srgb, var(--wing-color), #ffffff 12%);
+        opacity: 0;
+        filter: drop-shadow(0 0 8px var(--wing-color));
+      }
+
+      .click-wing::before {
+        left: 3px;
+        clip-path: polygon(100% 50%, 20% 0, 0 50%, 20% 100%);
+        transform-origin: 100% 50%;
+        animation: flapLeft 0.82s ease-out forwards;
+      }
+
+      .click-wing::after {
+        right: 3px;
+        clip-path: polygon(0 50%, 80% 0, 100% 50%, 80% 100%);
+        transform-origin: 0 50%;
+        animation: flapRight 0.82s ease-out forwards;
+      }
+
+      @keyframes flapLeft {
+        0% {
+          opacity: 0.9;
+          transform: translateX(0) scale(0.55) rotate(-24deg);
+        }
+        35% {
+          opacity: 1;
+          transform: translateX(-12px) scale(1) rotate(-2deg);
+        }
+        100% {
+          opacity: 0;
+          transform: translateX(-24px) scale(1.2) rotate(16deg);
+        }
+      }
+
+      @keyframes flapRight {
+        0% {
+          opacity: 0.9;
+          transform: translateX(0) scale(0.55) rotate(24deg);
+        }
+        35% {
+          opacity: 1;
+          transform: translateX(12px) scale(1) rotate(2deg);
+        }
+        100% {
+          opacity: 0;
+          transform: translateX(24px) scale(1.2) rotate(-16deg);
+        }
+      }
+    </style>
+  </head>
+
+  <body class="bg-[#0b0e17] text-white overflow-auto relative min-h-screen">
+    <!-- Floating icons -->
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"
+      class="floating-icon w-16 left-8 top-24"
+      style="animation-duration: 11s"
+    />
+    <img
+      src="assets/love.png"
+      class="floating-icon w-20 right-10 top-52"
+      style="animation-duration: 13s"
+    />
+    <img
+      src="assets/helmet.png"
+      class="floating-icon w-20 left-1/2 top-96"
+      style="animation-duration: 15s"
+    />
+    <!-- Microphone icon -->
+    <img
+      src="assets/car.png"
+      class="floating-icon w-14 sm:w-20 right-6 sm:right-32 bottom-1/3 sm:bottom-1/4"
+      style="animation-duration: 12s"
+    />
+    <!-- Headset icon -->
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/994/994592.png"
+      class="floating-icon w-12 sm:w-16 left-12 sm:left-1/4 bottom-1/4 sm:bottom-1/3"
+      style="animation-duration: 14s"
+    />
+    <img
+      src="assets/petir.png"
+      class="floating-icon w-16 sm:w-20 right-6 sm:right-1/3 bottom-16 sm:bottom-12"
+      style="animation-duration: 18s"
+    />
+    <!-- HERO -->
+    <section
+      class="flex flex-col items-center text-center px-6 py-12 min-h-screen justify-center"
+    >
+      <!-- Logo -->
+      <div
+        class="logo-shell mt-8"
+        style="
+          animation:
+            mascotFloat 4s infinite ease-in-out,
+            glowPulse 3.5s infinite ease-in-out,
+            fadeInLogo 1.2s ease forwards;
+          opacity: 1;
+        "
+      >
+        <span class="logo-lane logo-lane--1"></span>
+        <span class="logo-lane logo-lane--2"></span>
+        <span class="logo-lane logo-lane--3"></span>
+        <img
+          src="assets/logo.png"
+          id="mascot"
+          alt="Empire GT1"
+          class="w-44 rounded-full md:w-52"
+        />
+      </div>
+
+      <style>
+        @keyframes fadeInLogo {
+          0% {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+      </style>
+
+      <!-- Title -->
+      <h1
+        class="text-4xl md:text-5xl font-extrabold mt-6 pb-2 md:pb-4"
+        style="
+          animation-delay: 0.3s;
+          background: linear-gradient(90deg, #ff1e1e, #ffffff, #1e90ff);
+          background-size: 200% 200%;
+          background-position: 0% 50%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          animation:
+            gradientAnim 5s ease infinite,
+            fadeInTitle 1.2s ease forwards;
+          opacity: 1;
+        "
+      >
+        Empire GT1
+      </h1>
+
+      <style>
+        @keyframes gradientAnim {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+        @keyframes fadeInTitle {
+          0% {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+      </style>
+
+      <p
+        class="text-gray-300 max-w-md mt-4 fade-in"
+        style="animation-delay: 0.4s"
+      >
+        Komunitas Game Racing Master Indonesia Kami fokus pada event,
+        sportivitas, dan pengembangan skill mengemudi. Seperti track day,
+        endurance race, scrimmage, crw, hingga kejuaraan internal.
+      </p>
+
+      <!-- Media vertical list -->
+      <div
+        class="mt-10 flex flex-col gap-6 items-center w-full max-w-md fade-in"
+        style="animation-delay: 0.6s"
+      >
+        <a
+          href="https://www.tiktok.com/@xmenz17?_r=1&_t=ZS-932NOQFrd3Z"
+          target="_blank"
+          class="animated-button mask-button w-full py-3 rounded-2xl bg-black text-white duration-200 shadow-md flex items-center justify-center gap-2"
+          style="--border-color: #25f4ee"
+        >
+          <span class="border-line"></span>
+          <span class="border-line"></span>
+          <span class="border-line"></span>
+          <span class="border-line"></span>
+          <span class="mask-bg"></span>
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png"
+            class="w-6 relative z-10"
+          />
+          <span class="relative z-10">TikTok</span>
+        </a>
+
+        <!-- IG & FB Popup -->
+        <button
+          onclick="showInfoPopup(event)"
+          class="animated-button mask-button w-full py-3 rounded-2xl bg-black duration-200 shadow-md flex items-center justify-center gap-2"
+          style="--border-color: #25d366"
+        >
+          <span class="border-line"></span>
+          <span class="border-line"></span>
+          <span class="border-line"></span>
+          <span class="border-line"></span>
+          <span class="mask-bg"></span>
+          <img src="assets/wa.png" class="w-6 relative z-10" />
+          <span class="relative z-10">WhatsApp</span>
+        </button>
+
+        <p class="text-gray-300">Gabung Discord Kami!</p>
+
+        <a
+          href="https://discord.gg/CxmPMkkP"
+          target="_blank"
+          class="animated-button mask-button w-full py-3 rounded-2xl bg-black text-white hover:text-white hover:bg-[#5865f2] duration-200 shadow-md flex items-center justify-center gap-2"
+          style="--border-color: #5865f2"
+        >
+          <span class="border-line"></span>
+          <span class="border-line"></span>
+          <span class="border-line"></span>
+          <span class="border-line"></span>
+          <span class="mask-bg"></span>
+          <img
+            src="	https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/66e278299a53f5bf88615e90_Symbol.svg"
+            class="w-6 relative z-10"
+          />
+          <span class="relative z-10">Discord</span>
+        </a>
+      </div>
+    </section>
+
+    <p
+      class="mb-1 mt-14 mb-5 text-center text-[10px] sm:text-xs tracking-[0.18em] lowercase text-gray-500/80 pointer-events-none select-none z-40"
+    >
+      made by xmenz
+    </p>
+
+    <script src="assets/script.js"></script>
+  </body>
+</html>
