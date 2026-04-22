@@ -582,7 +582,7 @@
         style="animation-delay: 0.6s"
       >
         <a
-          href="https://www.tiktok.com/@xmenz17?_r=1&_t=ZS-932NOQFrd3Z"
+          href="https://www.tiktok.com/@empire_gt1?is_from_webapp=1&sender_device=pc"
           target="_blank"
           class="animated-button mask-button w-full py-3 rounded-2xl bg-black text-white duration-200 shadow-md flex items-center justify-center gap-2"
           style="--border-color: #25f4ee"
@@ -596,10 +596,10 @@
             src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png"
             class="w-6 relative z-10"
           />
-          <span class="relative z-10">TikTok</span>
+          <span class="relative z-10">Empire GT1</span>
         </a>
 
-        <!-- IG & FB Popup -->
+        <!-- WA -->
         <button
           onclick="showInfoPopup(event)"
           class="animated-button mask-button w-full py-3 rounded-2xl bg-black duration-200 shadow-md flex items-center justify-center gap-2"
@@ -611,13 +611,13 @@
           <span class="border-line"></span>
           <span class="mask-bg"></span>
           <img src="assets/wa.png" class="w-6 relative z-10" />
-          <span class="relative z-10">WhatsApp</span>
+          <span class="relative z-10">Admin</span>
         </button>
 
         <p class="text-gray-300">Gabung Discord Kami!</p>
 
         <a
-          href="https://discord.gg/CxmPMkkP"
+          href="https://discord.gg/HTvPsxst"
           target="_blank"
           class="animated-button mask-button w-full py-3 rounded-2xl bg-black text-white hover:text-white hover:bg-[#5865f2] duration-200 shadow-md flex items-center justify-center gap-2"
           style="--border-color: #5865f2"
@@ -635,6 +635,137 @@
         </a>
       </div>
     </section>
+
+    <!-- Popup: Pilih Admin -->
+    <div
+      id="adminPopup"
+      class="hidden fixed inset-0 z-[1200] bg-black/70 p-4 flex items-center justify-center"
+    >
+      <div
+        class="fade-popup w-full max-w-md rounded-2xl border border-[#1e90ff] bg-[#0f1424] p-5 shadow-2xl"
+      >
+        <h3 class="text-lg font-bold text-white">Informasi Pendaftaran</h3>
+        <p class="my-6 text-sm leading-relaxed text-gray-300">
+          Untuk bergabung dengan club Empire GT1 silahkan hubungi salah satu
+          admin berikut.
+        </p>
+
+        <div class="mt-5 grid gap-3">
+          <button
+            onclick="openRulesPopup(event, '6285798047422')"
+            class="animated-button mask-button w-full py-2.5 rounded-xl bg-black duration-200 shadow-md flex items-center justify-center gap-2"
+            style="--border-color: #25d366"
+          >
+            <span class="border-line"></span>
+            <span class="border-line"></span>
+            <span class="border-line"></span>
+            <span class="border-line"></span>
+            <span class="mask-bg"></span>
+            <img src="assets/wa.png" class="w-5 relative z-10" />
+            <span class="relative z-10">GT1“UJIN</span>
+          </button>
+
+          <button
+            onclick="openRulesPopup(event, '6285775403846')"
+            class="animated-button mask-button w-full py-2.5 rounded-xl bg-black duration-200 shadow-md flex items-center justify-center gap-2"
+            style="--border-color: #25d366"
+          >
+            <span class="border-line"></span>
+            <span class="border-line"></span>
+            <span class="border-line"></span>
+            <span class="border-line"></span>
+            <span class="mask-bg"></span>
+            <img src="assets/wa.png" class="w-5 relative z-10" />
+            <span class="relative z-10">GT1“Keyshit</span>
+          </button>
+
+          <button
+            onclick="openRulesPopup(event, '6285845497291')"
+            class="animated-button mask-button w-full py-2.5 rounded-xl bg-black duration-200 shadow-md flex items-center justify-center gap-2"
+            style="--border-color: #25d366"
+          >
+            <span class="border-line"></span>
+            <span class="border-line"></span>
+            <span class="border-line"></span>
+            <span class="border-line"></span>
+            <span class="mask-bg"></span>
+            <img src="assets/wa.png" class="w-5 relative z-10" />
+            <span class="relative z-10">GT1“Noir</span>
+          </button>
+        </div>
+
+        <button
+          onclick="closeAdminPopup()"
+          class="mt-8 w-full rounded-xl border border-gray-500/70 hover:border-transparent py-2.5 text-sm text-gray-500 hover:text-white hover:bg-red-700 transition-all duration-300 ease-in-out"
+        >
+          Tutup
+        </button>
+      </div>
+    </div>
+
+    <!-- Popup: Aturan Member -->
+    <div
+      id="rulesPopup"
+      class="hidden fixed inset-0 z-[1250] bg-black/75 p-4 flex items-center justify-center"
+    >
+      <div
+        class="fade-popup w-full max-w-md rounded-2xl border border-[#1e90ff] bg-[#0f1424] p-5 shadow-2xl"
+      >
+        <h3 class="text-lg font-bold text-white">Perhatian!</h3>
+
+        <p class="mt-3 text-sm leading-relaxed text-gray-300">
+          Berikut adalah aturan untuk member GT1:
+        </p>
+
+        <ul
+          class="mt-3 text-sm leading-relaxed text-gray-300 list-disc pl-5 space-y-1"
+        >
+          <li>
+            Wajib rename nick name game Racing Master.
+            <div class="mt-2 flex items-center gap-2">
+              <span
+                id="nicknameFormat"
+                class="rounded-md border border-gray-600 bg-black/40 px-2 py-1 text-xs text-gray-200"
+                >GT1“(name)</span
+              >
+              <button
+                onclick="copyNicknameFormat(event)"
+                class="rounded-md border border-[#25d366] px-2 py-1 text-xs text-[#25d366] hover:bg-[#25d366]/15"
+              >
+                Copy Format Nick
+              </button>
+            </div>
+          </li>
+          <li>No SARA.</li>
+          <li>Aktif / 3 hari kick.</li>
+          <li>Wajib jalankan misi klub.</li>
+          <li>Jika berhalangan hadir kasih tau admin.</li>
+          <li>Follow TikTok kami.</li>
+        </ul>
+
+        <button
+          id="registerNowButton"
+          onclick="openWhatsAppRegistration(event)"
+          class="animated-button mask-button mt-5 w-full py-2.5 rounded-xl bg-black duration-200 shadow-md flex items-center justify-center gap-2"
+          style="--border-color: #25d366"
+        >
+          <span class="border-line"></span>
+          <span class="border-line"></span>
+          <span class="border-line"></span>
+          <span class="border-line"></span>
+          <span class="mask-bg"></span>
+          <img src="assets/wa.png" class="w-5 relative z-10" />
+          <span class="relative z-10">Daftar Sekarang</span>
+        </button>
+
+        <button
+          onclick="closeRulesPopup()"
+          class="mt-3 w-full rounded-xl border border-gray-500/70 hover:border-transparent py-2.5 text-sm text-gray-500 hover:text-white hover:bg-red-700 transition-all duration-300 ease-in-out"
+        >
+          Kembali
+        </button>
+      </div>
+    </div>
 
     <p
       class="mb-1 mt-14 mb-5 text-center text-[10px] sm:text-xs tracking-[0.18em] lowercase text-gray-500/80 pointer-events-none select-none z-40"

@@ -1,4 +1,14 @@
 const CLICK_ANIMATION_MS = 820;
+const REGISTRATION_TEMPLATE = `Hallo salam race admin, saya :
+Nama:
+User Name TikTok:
+Id Game:
+User Name Game:
+Tahu Informasi Club Dari:
+Ingin bergabung dengan club Empire GT1, apakah masih tersedia kuota untuk saya? Terima kasih🤗
+`;
+
+let selectedAdminNumber = "";
 
 function runClickAnimation(target) {
   if (!target || target.classList.contains("click-animate")) {
@@ -76,12 +86,92 @@ function showInfoPopup(e) {
   runClickAnimation(button);
 
   setTimeout(() => {
-    document.getElementById("popup").classList.remove("hidden");
+    const adminPopup = document.getElementById("adminPopup");
+    if (adminPopup) {
+      adminPopup.classList.remove("hidden");
+    }
   }, CLICK_ANIMATION_MS);
 }
 
-function closePopup() {
-  document.getElementById("popup").classList.add("hidden");
+function closeAdminPopup() {
+  const adminPopup = document.getElementById("adminPopup");
+  if (adminPopup) {
+    adminPopup.classList.add("hidden");
+  }
+}
+
+function openRulesPopup(e, phoneNumber) {
+  e.preventDefault();
+
+  const button = e.target.closest("button");
+  runClickAnimation(button);
+
+  selectedAdminNumber = String(phoneNumber || "").replace(/\D/g, "");
+
+  setTimeout(() => {
+    const adminPopup = document.getElementById("adminPopup");
+    const rulesPopup = document.getElementById("rulesPopup");
+
+    if (adminPopup) {
+      adminPopup.classList.add("hidden");
+    }
+    if (rulesPopup) {
+      rulesPopup.classList.remove("hidden");
+    }
+  }, CLICK_ANIMATION_MS);
+}
+
+function closeRulesPopup() {
+  const rulesPopup = document.getElementById("rulesPopup");
+  if (rulesPopup) {
+    rulesPopup.classList.add("hidden");
+  }
+  showInfoPopupFromInside();
+}
+
+function showInfoPopupFromInside() {
+  const adminPopup = document.getElementById("adminPopup");
+  if (adminPopup) {
+    adminPopup.classList.remove("hidden");
+  }
+}
+
+function copyNicknameFormat(e) {
+  e.preventDefault();
+
+  const nicknameElement = document.getElementById("nicknameFormat");
+  if (!nicknameElement) {
+    return;
+  }
+
+  const nicknameText = nicknameElement.textContent.trim();
+  navigator.clipboard.writeText(nicknameText).then(() => {
+    const button = e.target.closest("button");
+    if (!button) {
+      return;
+    }
+
+    const original = button.textContent;
+    button.textContent = "Tersalin!";
+    setTimeout(() => {
+      button.textContent = original;
+    }, 1200);
+  });
+}
+
+function openWhatsAppRegistration(e) {
+  e.preventDefault();
+
+  const button = e.target.closest("button");
+  runClickAnimation(button);
+
+  const fallbackNumber = "6281111111111";
+  const targetNumber = selectedAdminNumber || fallbackNumber;
+  const url = `https://wa.me/${targetNumber}?text=${encodeURIComponent(REGISTRATION_TEMPLATE)}`;
+
+  setTimeout(() => {
+    window.open(url, "_blank");
+  }, CLICK_ANIMATION_MS);
 }
 
 // CLICK EFFECT + DELAYED ACTION
